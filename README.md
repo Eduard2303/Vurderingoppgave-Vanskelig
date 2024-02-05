@@ -1,2 +1,2 @@
 # Vurderingoppgave-Vanskelig
-Her er dukumentasjonen og filene til vurdering oppgaven.
+Her er dukumentasjonen og filene til vurderingoppgaven.
