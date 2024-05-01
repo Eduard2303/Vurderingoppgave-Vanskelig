@@ -2,7 +2,7 @@
 debug/
 **/target/
 oppgave_3_rust/target
-Cargo.lock
+**/Cargo.lock
 **/*.rs.bk
 *.pdb
 .vs
