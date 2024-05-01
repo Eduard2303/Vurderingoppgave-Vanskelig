@@ -1,1 +1,9 @@
 /guessing_game
+debug/
+**/target/
+oppgave_3_rust/target
+Cargo.lock
+**/*.rs.bk
+*.pdb
+.vs
+.vscode
