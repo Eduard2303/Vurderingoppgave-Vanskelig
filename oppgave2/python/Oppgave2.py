@@ -134,4 +134,3 @@ result = dijkstras(matrix, 0, 0, do_shortest, draw, report)
 
 draw_maze(matrix, 0, 0, result["path"], False)
 print(result)
-
