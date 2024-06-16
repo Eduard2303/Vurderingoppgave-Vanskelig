@@ -1,5 +1,3 @@
-from time import sleep 
-
 maze = [
 [1, 0, 1, 1, 1, 1, 0, 1, 1, 1 ] ,
 [1, 0, 1, 0, 1, 1, 1, 1, 0, 1 ] ,
@@ -13,12 +11,19 @@ maze = [
 ]
 
 def mark_vertexes(graph):
+    ### Create new 2D gonna be Array
     marked_vertexes = []
 
+    ### Loop trough each element in the 2D array
     for i in range(0, len(graph)):
+        
+        ### Make each row
         marked_vertexes.append([])
+
         for j in range(0, len(graph[i])):
-            marked_vertexes[i].append(False) # "Creates identical matrix and marks the vertix position False" print(i, j, maze[i][j]) 
+
+            ### Set each element in column == False
+            marked_vertexes[i].append(False) 
 
     return marked_vertexes
 
@@ -37,25 +42,36 @@ def find_neighbours(graph, row, column):
         next_row = row + row_vertecies[direction]
         next_column = column + column_vertecies[direction]
 
+        ### Checks if within maze bounds
         if ( (0 <= next_row < len(graph)) and (0 <= next_column < len(graph[0])) ): ### UP
-            if graph[next_row][next_column] != 0:
-                if not marked_maze[next_row][next_column]:
+            if graph[next_row][next_column] != 0: ### Checks if stone
+                if not marked_maze[next_row][next_column]: ### Checks if already visisted (Marked)
+                    
+                    ### Append to valid paths
                     valid_paths.append([next_row, next_column])
 
     return valid_paths
 
-def dfs(graph, row, column): ### Row + Collumn representing the vertex 
-    if row == (len(graph) -1) and column == (len(graph[0]) -1): ### Returns True when last vertex in maze is hit
+def dfs(graph, row, column): ### Row + Collumn representing the vertex
+
+    ### BASE CASE
+    # Returns True when last vertex in maze is hit 
+    if row == (len(graph) -1) and column == (len(graph[0]) -1):
         return True
     
-    marked_maze[row][column] = True # Shows program you have already been to this vertex
+    # Shows program you have already been to this vertex
+    marked_maze[row][column] = True 
 
     next_paths = find_neighbours(graph, row, column)
 
-    
-    for path in next_paths: ### Explores every path possible, but if there are no more vertixes to visit go back (recursivly) until you can visit one or if paths are depleted
-        if dfs(graph, path[0], path[1]): ### IF last vertex is hit:
-            #true_path.append([path[0], path[1]]) ### retrace paths back to start (not needed anymore though)
+    ### Explores every path possible, 
+    #  but if there are no more vertixes to visit go back   
+    # (recursivly) until you can visit one ("stored" in for loop) or if paths are depleted
+
+    for path in next_paths: 
+        if dfs(graph, path[0], path[1]):
+            # If base condition is hit CONTINUE to return True
+                                                                #true_path.append([path[0], path[1]]) ### retrace paths back to start (not needed anymore though)
             return True
 
     
@@ -64,9 +80,10 @@ def dfs(graph, row, column): ### Row + Collumn representing the vertex
 
 
 
+### Creates an identical maze but all 0s
 marked_maze = mark_vertexes(maze)
 
 
 is_solvable = dfs(maze, 0, 0)
 
-print(f"Is the MAZE solvable: \033[1m{is_solvable}\033[00m")
+print(f"Is the MAZE solvable: \033[1m{is_solvable}\033[00m") ### \033 = specify colour, [1m = bold, [00m = reset 

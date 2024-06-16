@@ -1,5 +1,3 @@
-from time import sleep
-
 matrix = [
 [ 1, 1, 11 ] ,
 [ 4, 5, 1 ] ,
@@ -7,8 +5,8 @@ matrix = [
 ]
 
 matrix = [
-[ 272, 362, 965, 995, 603, 909, 758, 390, 709, 693 ] ,
-[ 665, 600, 806, 201, 905, 688, 294, 860, 6, 501 ] ,
+[ 272, 900000, 965, 995, 603, 909, 758, 390, 709, 693 ] ,
+[ 9, 600, 806, 201, 905, 688, 294, 860, 6, 501 ] ,
 [ 362, 454, 902, 479, 632, 78, 469, 255, 650, 755 ] ,
 [ 337, 927, 535, 858, 839, 236, 813, 457, 360, 482 ] ,
 [ 153, 742, 367, 793, 749, 870, 413, 81, 961, 165 ] ,
@@ -24,75 +22,77 @@ def find_neighbours(graph, row, column):
     ### Row vertecies represents the direction (DOWN) and the column_vertecies the direction (RIGHT)
     ### THEN we return valid_paths AKA all the directions we can move in from the specified vertecy
 
-    row_vertecies = [+1, 0]
+    ### Describes which way to go in the graph
+    row_vertecies = [+1, 0] 
     column_vertecies = [0, +1]
 
-    valid_paths = []
+    valid_paths = [] 
 
     for direction in range(0, 2):
-        next_row = row + row_vertecies[direction]
+        ### Get next row either DOWN or RIGHT based on vertecies
+        next_row = row + row_vertecies[direction] 
         next_column = column + column_vertecies[direction]
 
+        ### Checks if index is within graph
         if ( (0 <= next_row < len(graph)) and (0 <= next_column < len(graph[0])) ):
-            valid_paths.append([next_row, next_column])
+            valid_paths.append([next_row, next_column]) ### Add cordinates to valid paths
 
-    return valid_paths
+    return valid_paths ### RETURNS 2D array of cordinates ( array[0-2][2] )
 
-def dijkstras(graph, row, column, shortest, report): ### Row + Collumn representing the vertex 
+
+
+def dijkstras(graph, row, column, shortest): ### Row + Collumn representing the vertex 
+
+    ### "Import" global variables
     global current_cost
     global current_path
     global shortest_path
     
-    if row == (len(graph) -1) and column == (len(graph[0]) -1): ### Returns True when last vertex in maze is hit
+    ### BASE CONDITION that hits when row-and-column is at the last index in the graph
+    if row == (len(graph) -1) and column == (len(graph[0]) -1):
         if do_shortest:
-            if current_cost < shortest_path["cost"]: ### For shortest path
+            if current_cost < shortest_path["cost"]: 
+                ### if path we are on is has less cost than our shortest_path cost
+                ## replace shortest_path["Path"] with currentpath
+                ## Repplace shortest_cost with current cost
                 shortest_path["path"] = current_path.copy() ### Use copy, OR else shortest_path["path"] will be BOUND to the current_path
                 shortest_path["cost"] = current_cost
-                if report:
-                    print("NEW: ", shortest_path)
-            return True
+
+            return ### Returns last vertex in maze is hit
         else:
             if current_cost > shortest_path["cost"]: ### For highest path
                 shortest_path["path"] = current_path.copy()
                 shortest_path["cost"] = current_cost
-                if report:
-                    print("NEW: ", shortest_path)
+
             return True
     
     next_paths = find_neighbours(graph, row, column)
 
-    
-    for path in next_paths: ### Explores every path possible, but if there are no more vertixes to visit go back (recursivly) until you can visit one or if paths are depleted
+    ### THE FOR LOOP "Saves" all the possible paths so it can use it later when recursing backwords
+    # This way we can loop through each possible path 
+    for path in next_paths: 
+    ### Explores every path possible, but if there are no more vertixes to visit go back (recursivly) until you can visit one or if paths are depleted
+        
+        ### Add next STEP(cordinates) and next cost to Current Path and Cost
         current_path.append( [path[0], path[1]] )
         current_cost += graph[current_path[-1][0]][current_path[-1][1]]
 
-       
+        ### Call recursivly
+        dijkstras(graph, path[0], path[1], shortest)
 
-        if current_cost > shortest_path["cost"] and shortest: ### For Eager dijkstras BUT ONLY works when calculating shortest path NOT highest.
-            current_cost -= graph[current_path[-1][0]][current_path[-1][1]]
-            current_path.pop()
-        else:
-            if dijkstras(graph, path[0], path[1], shortest, report): ### IF last vertex is hit:
-                current_cost -= graph[current_path[-1][0]][current_path[-1][1]]
-                current_path.pop()
-
-    
-    try:
+        ### Do this before you recursibly go back, to track which path you are on
         current_cost -= graph[current_path[-1][0]][current_path[-1][1]]
         current_path.pop()
-    except:
-        return shortest_path
+
+    return shortest_path
     
 
 
-
-explored_paths = []
 current_path = []
-current_cost = matrix[0][0]
-
+current_cost = matrix[0][0] 
 do_shortest = True
-report = False
 
+### Create different object depending on if shortest or longest path
 if do_shortest:
     shortest_path = {
         "path": [],
@@ -104,8 +104,7 @@ elif not do_shortest:
         "cost": 0 # Change to 0 for highest path
     }
 
-result = dijkstras(matrix, 0, 0, do_shortest, report)
-
+result = dijkstras(matrix, 0, 0, do_shortest)
 
 print(result)
 

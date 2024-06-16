@@ -5,7 +5,7 @@
 ### Problem
 Vi må gå fra første celle i venste hjørne til siste celle venstre hjørne men vi skal kun gå gjennom cellene som går innom de miste cellene.
 ### Delproblemer
-1. Bruke en algoritme som starter på start cellen og sjekker cellene ned og venstre.
+1. Bruke en algoritme som starter på start cellen og sjekker cellene ned, ned venstre og ned høyre.
 2. Programmet må lagre veien vi har gått til sånn at vi kan sammenligne de forsjelige veiene får å finne den korteste.
 3. Programmet forsetter helt til vi har sjekket alle veiene.
 ## Lage flytdiagram

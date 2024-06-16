@@ -50,4 +50,4 @@ def dfs(maze,rad,kollone):
 
 ## Beskrive kodeflyt
 
-***Sjekk .py fil ene for komentarer.***
+***Sjekk .py og .c fil ene for komentarer.***

@@ -1,24 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include "linkedList.c"
+#include<stdio.h> // Standard Input Output
+#include<stdlib.h> // Standard library (gives me right to mallocate memory, Free it? no)
+#include "linkedList.c" // Include what i made
 
-/*struct PathStruct
-{
-    int cost;
-    node path;
-};
-
-typedef struct PathStruct *path;
-
-path definePath() {
-    path new_path;
-    new_path = (path)malloc(sizeof(struct PathStruct));
-    new_path->cost = 0;
-    new_path->path = NULL;
-
-    return new_path;
-}*/
-
+// Initialize matrix with 10 rows and 10 columns
 int matrix[10][10] = {
     { 272, 362, 965, 995, 603, 909, 758, 390, 709, 693 } ,
     { 665, 600, 806, 201, 905, 688, 294, 860, 6, 501 } ,
@@ -32,14 +16,16 @@ int matrix[10][10] = {
     { 45, 344, 622, 627, 349, 184, 802, 400, 701, 550 }
 };
 
+// Get size of each row and column in the matrix
 long matrix_rows = sizeof(matrix) / sizeof(matrix[0]);
 long matrix_columns = sizeof(matrix[0]) / sizeof(matrix[0][0]);
 
+// Create LinkedList Head called current_path and set it to Null
 node current_path = NULL;
-int current_cost = 0;
+int current_cost = 0; // For longest
 
 node shortest_path = NULL;
-int shortest_cost = 2147483647;
+int shortest_cost = 2147483647; // For shortest
 
 node find_next_paths(int row, int column) {
     int row_vertecies[2] = {1, 0};
@@ -105,12 +91,12 @@ int dijkstras(int row, int column) {
 
 int main() {
 
+    // Includes cost of first item in matrix
     current_cost += matrix[0][0];
 
+    dijkstras(0, 0); // 0, 0 = row, column
 
-    int do_shortest = 1;
-    dijkstras(0, 0);
-
+    // Print shortest path
     node p = shortest_path;
     while (p != NULL) {
         printf("[%i, %i]\n", *(p->data + 0), *(p->data + 1));
@@ -118,6 +104,7 @@ int main() {
         p = p->next;
     }
 
+    // Print shortest cost
     printf("%i\n", shortest_cost);
     freeList(current_path);
 };
