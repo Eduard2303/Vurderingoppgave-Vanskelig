@@ -1,2 +1,2 @@
-# Vurderingoppgave-Vanskelig
-Her er Dokumentasjonen og filene til vurderingoppgave-Vanskelig.
+# 👾 Vurderingoppgave-Vanskelig 👾
+Her er **Dokumentasjonen** og **filene** til vurderingoppgave-Vanskelig. 🐗🐗🐗
